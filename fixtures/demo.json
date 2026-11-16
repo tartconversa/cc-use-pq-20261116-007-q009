@@ -1,0 +1,34 @@
+{
+  "stations": [
+    {"code": "source-a", "zone": "north", "households": 0, "source": "waste_heat", "capacity_mw": 80},
+    {"code": "station-b", "zone": "north", "households": 1800, "source": "gas", "capacity_mw": 20},
+    {"code": "station-c", "zone": "north", "households": 900, "source": "storage", "capacity_mw": 12}
+  ],
+  "pipes": [
+    {"code": "pipe-ab", "upstream": "source-a", "downstream": "station-b", "max_flow_m3h": 100},
+    {"code": "pipe-bc", "upstream": "station-b", "downstream": "station-c", "max_flow_m3h": 60}
+  ],
+  "rules": [
+    {"name": "low-pressure", "metric": "pressure_kpa", "operator": "lt", "threshold": 180, "severity": "critical", "consecutive": 2, "clear_consecutive": 1},
+    {"name": "cool-supply", "metric": "supply_c", "operator": "lt", "threshold": 65, "severity": "warning", "consecutive": 1, "clear_consecutive": 2}
+  ],
+  "quality": {"max_lag_minutes": 120, "max_future_minutes": 5},
+  "batches": [
+    {"batch_id": "morning-1", "received_at": "2026-11-16T08:05:00+08:00", "observations": [
+      {"station": "station-b", "sensor": "sensor-b", "sequence": 1, "observed_at": "2026-11-16T08:00:00+08:00", "supply_c": 75, "return_c": 50, "flow_m3h": 35, "pressure_kpa": 190, "gas_m3h": 14, "source_id": "b-1"}
+    ]},
+    {"batch_id": "morning-2", "received_at": "2026-11-16T08:15:00+08:00", "observations": [
+      {"station": "station-b", "sensor": "sensor-b", "sequence": 2, "observed_at": "2026-11-16T08:10:00+08:00", "supply_c": 74, "return_c": 50, "flow_m3h": 34, "pressure_kpa": 170, "gas_m3h": 14, "source_id": "b-2"},
+      {"station": "station-c", "sensor": "sensor-c", "sequence": 1, "observed_at": "2026-11-16T08:10:00+08:00", "supply_c": 62, "return_c": 48, "flow_m3h": 12, "pressure_kpa": 185, "gas_m3h": 0, "source_id": "c-1"}
+    ]},
+    {"batch_id": "morning-3", "received_at": "2026-11-16T08:25:00+08:00", "observations": [
+      {"station": "station-b", "sensor": "sensor-b", "sequence": 3, "observed_at": "2026-11-16T08:20:00+08:00", "supply_c": 73, "return_c": 49, "flow_m3h": 33, "pressure_kpa": 165, "gas_m3h": 14, "source_id": "b-3"}
+    ]}
+  ],
+  "demands": [
+    {"station": "station-b", "required_mw": 35, "priority": 5},
+    {"station": "station-c", "required_mw": 15, "priority": 3}
+  ],
+  "from_at": "2026-11-15T00:00:00Z",
+  "to_at": "2026-11-17T00:00:00Z"
+}
